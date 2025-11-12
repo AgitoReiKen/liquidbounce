@@ -72,7 +72,7 @@ repositories {
 }
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        substitute(module("de.florianmichael:Classic4J:2.1.1-SNAPSHOT"))
+        substitute(module("de.florianmichael:Classic4J:2.2.1"))
                 .with(module("de.florianmichael:Classic4J:2.2.1"))
     }
 }
