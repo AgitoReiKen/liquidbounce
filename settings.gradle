@@ -19,6 +19,9 @@
 
 pluginManagement {
     repositories {
+        flatDir {
+            dirs 'libs' // put jars here
+        }
         maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'

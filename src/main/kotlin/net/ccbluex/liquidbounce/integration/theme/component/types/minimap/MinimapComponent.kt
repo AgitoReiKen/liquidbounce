@@ -41,6 +41,7 @@ import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Vec2f
@@ -259,7 +260,7 @@ object MinimapComponent : Component("Minimap", true) {
     private fun drawEntityOnMinimap(
         bufferBuilder: BufferBuilder,
         matStack: MatrixStack,
-        entity: LivingEntity,
+        entity: Entity,
         partialTicks: Float,
         basePos: Vec2f,
     ) {

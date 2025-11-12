@@ -29,9 +29,16 @@ import net.ccbluex.liquidbounce.render.engine.Color4b
 import net.ccbluex.liquidbounce.utils.combat.EntityTaggingManager
 import net.ccbluex.liquidbounce.utils.combat.shouldBeShown
 import net.ccbluex.liquidbounce.utils.entity.interpolateCurrentPosition
+import net.fabricmc.loader.impl.util.log.Log
+import net.fabricmc.loader.impl.util.log.LogCategory
+import net.fabricmc.loader.impl.util.log.LogLevel
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Box
+import net.ccbluex.liquidbounce.utils.client.logger
+import net.ccbluex.liquidbounce.utils.combat.*
+import java.lang.System.Logger.Level
 
 /**
  * ESP module
@@ -54,6 +61,8 @@ object ModuleESP : ClientModule("ESP", Category.RENDER) {
     }
 
     private val friendColor by color("Friends", Color4b(0, 0, 255))
+    private val entityColor by color("Entities", Color4b(255, 255, 255))
+    private val allEntities by boolean("ShowAllEntities", true)
 
     abstract class EspMode(
         name: String,
@@ -106,9 +115,13 @@ object ModuleESP : ClientModule("ESP", Category.RENDER) {
 
     object OutlineMode : EspMode("Outline", requiresTrueSight = true)
 
-    fun findRenderedEntities() = world.entities.filterIsInstance<LivingEntity>().filter { it.shouldBeShown() }
+    fun findRenderedEntities() : Iterable<Entity> {
+         return world.entities.filter {
+            shouldRender(it)
+        };
+    }
 
-    private fun getBaseColor(entity: LivingEntity): Color4b {
+    private fun getBaseColor(entity: Entity): Color4b {
         if (entity is PlayerEntity) {
             if (FriendManager.isFriend(entity) && friendColor.a > 0) {
                 return friendColor
@@ -116,21 +129,32 @@ object ModuleESP : ClientModule("ESP", Category.RENDER) {
 
             EntityTaggingManager.getTag(entity).color?.let { return it }
         }
+        if (entity is LivingEntity) {
+            return colorModes.activeChoice.getColor(entity);
 
-        return colorModes.activeChoice.getColor(entity)
+        }
+        return entityColor;
+
     }
 
-    fun getColor(entity: LivingEntity): Color4b {
+    fun getColor(entity: Entity): Color4b {
         val baseColor = getBaseColor(entity)
 
-        if (entity.hurtTime > 0) {
+        logger.debug("EntityName Color from ${entity.name}");
+
+        if (entity is LivingEntity && entity.hurtTime > 0) {
             return Color4b.RED
         }
 
         return baseColor
     }
 
-    fun requiresTrueSight(entity: LivingEntity) =
+    fun shouldRender(entity: Entity) : Boolean {
+        if (entity is LivingEntity && entity.shouldBeShown()) return true;
+        if (allEntities) return true;
+        return false;
+    }
+    fun requiresTrueSight(entity: Entity) =
         modes.activeChoice.requiresTrueSight && entity.shouldBeShown()
 
 }
