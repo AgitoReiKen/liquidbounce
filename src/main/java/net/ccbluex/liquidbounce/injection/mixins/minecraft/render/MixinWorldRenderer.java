@@ -111,9 +111,8 @@ public abstract class MixinWorldRenderer {
 
         Color4b color;
 
-        if (ModuleESP.OutlineMode.INSTANCE.getRunning() && entity instanceof LivingEntity
-                && CombatExtensionsKt.shouldBeShown(entity)) {
-            color = ModuleESP.INSTANCE.getColor((LivingEntity) entity);
+        if (ModuleESP.OutlineMode.INSTANCE.getRunning() && ModuleESP.INSTANCE.shouldRender(entity)) {
+            color = ModuleESP.INSTANCE.getColor(entity);
         } else if (ModuleItemESP.OutlineMode.INSTANCE.getRunning() && ModuleItemESP.INSTANCE.shouldRender(entity)) {
             color = ModuleItemESP.INSTANCE.getColor();
         } else {
@@ -199,7 +198,7 @@ public abstract class MixinWorldRenderer {
         if (ModuleItemESP.GlowMode.INSTANCE.getRunning() && ModuleItemESP.INSTANCE.shouldRender(entity)) {
             return true;
         }
-        if (ModuleESP.GlowMode.INSTANCE.getRunning() && CombatExtensionsKt.shouldBeShown(entity)) {
+        if (ModuleESP.GlowMode.INSTANCE.getRunning() && ModuleESP.INSTANCE.shouldRender(entity)) {
             return true;
         }
         if (ModuleTNTTimer.INSTANCE.getRunning() && ModuleTNTTimer.INSTANCE.getEsp() && entity instanceof TntEntity) {
