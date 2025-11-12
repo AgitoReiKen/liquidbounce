@@ -70,12 +70,6 @@ repositories {
         url = "https://maven.lenni0451.net/everything"
     }
 }
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute(module("de.florianmichael:Classic4J:2.1.1-SNAPSHOT"))
-                .with(module("de.florianmichael:Classic4J:2.2.1"))
-    }
-}
 loom {
     accessWidenerPath = file("src/main/resources/liquidbounce.accesswidener")
 }
