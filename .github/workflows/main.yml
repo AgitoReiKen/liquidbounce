@@ -1,0 +1,24 @@
+name: Download Classic4J Snapshot
+
+on:
+  workflow_dispatch:   # allows manual trigger
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Maven Metadata parser
+        uses: BoBkiNN/maven-metadata-parser@v1.0.4
+        with:
+          metadata_url: https://maven.lenni0451.net/everything/de/florianmichael/Classic4J/2.1.1-SNAPSHOT/maven-metadata.xml
+          output_dir: ./Classic4J
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Classic4J-files
+          path: ./Classic4J
