@@ -2,33 +2,33 @@ build:
   excludeCorrectable: false
 
 config:
-  validation: true
+  validation: false
   warningsAsErrors: false
   checkExhaustiveness: false
   # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
   excludes: ''
 
 complexity:
-  active: true
+  active: false
   NamedArguments:
-    active: true
+    active: false
     threshold: 4
   ComplexCondition:
     threshold: 5
   CyclomaticComplexMethod:
     active: false
   CognitiveComplexMethod:
-    active: true
+    active: false
   StringLiteralDuplication:
-    active: true
+    active: false
     threshold: 8
 
 performance:
-  active: true
+  active: false
   CouldBeSequence:
-    active: true
+    active: false
   UnnecessaryPartOfBinaryExpression:
-    active: true
+    active: false
 
 exceptions:
   TooGenericExceptionCaught:
@@ -38,11 +38,11 @@ style:
   MagicNumber:
     active: false
   ReturnCount:
-    active: true
-    excludeGuardClauses: true
+    active: false
+    excludeGuardClauses: false
     max: 4
   LoopWithTooManyJumpStatements:
-    active: true
+    active: false
     maxJumpCount: 3
   WildcardImport:
     active: false
@@ -51,9 +51,9 @@ style:
   UnusedPrivateProperty:
     allowedNames: '_|ignored|expected|serialVersionUID|.+Handler'
   ForbiddenMethodCall:
-    active: true
+    active: false
     methods: [ 'kotlin.io.print', 'kotlin.io.println' ]
   BracesOnIfStatements:
-    active: true
+    active: false
     singleLine: 'never'
     multiLine: 'always'

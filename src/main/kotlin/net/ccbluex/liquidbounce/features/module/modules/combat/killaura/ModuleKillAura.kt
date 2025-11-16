@@ -338,7 +338,6 @@ object ModuleKillAura : ClientModule("KillAura", Category.COMBAT) {
         } else {
             range
         }
-
         // Find the newest target in range
         updateTargetWithRange(enemies, maximumRange)
     }

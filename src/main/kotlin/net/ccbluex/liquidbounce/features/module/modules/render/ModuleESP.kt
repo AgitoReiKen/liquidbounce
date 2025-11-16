@@ -26,6 +26,8 @@ import net.ccbluex.liquidbounce.features.module.Category
 import net.ccbluex.liquidbounce.features.module.ClientModule
 import net.ccbluex.liquidbounce.render.*
 import net.ccbluex.liquidbounce.render.engine.Color4b
+import net.ccbluex.liquidbounce.utils.client.asText
+import net.ccbluex.liquidbounce.utils.client.convertToString
 import net.ccbluex.liquidbounce.utils.combat.EntityTaggingManager
 import net.ccbluex.liquidbounce.utils.combat.shouldBeShown
 import net.ccbluex.liquidbounce.utils.entity.interpolateCurrentPosition
@@ -140,19 +142,42 @@ object ModuleESP : ClientModule("ESP", Category.RENDER) {
     fun getColor(entity: Entity): Color4b {
         val baseColor = getBaseColor(entity)
 
-        logger.debug("EntityName Color from ${entity.name}");
+//        Entity translation{key='entity.minecraft.armor_stand', args=[]}
+//        literal{flag}
+//        literal{flag}
+//        empty to Color4b(r=0, g=255, b=0, a=255)
 
+        //flag
+        //icelayout1v2 pokeball
+        //icelayout1v2
+        //Entity translation{key='entity.cobblemon.npc', args=[]}
+        // literal{Guardian }[style={color=#4A99D4,!italic}, siblings=[literal{(}[style={color=#41D247},
+        // siblings=[literal{ม }[style={color=white}, siblings=[literal{Battle)}[style={color=#41D247}]]]]]]]
+        // literal{Guardian }[style={color=#4A99D4,!italic}, siblings=[literal{(}[style={color=#41D247},
+        // siblings=[literal{ม }[style={color=white}, siblings=[literal{Battle)}[style={color=#41D247}]]]]]]] empty}
+        // to Color4b(r=0, g=255, b=0, a=255
+        //='entity.cobblemon.pokemon'
+//        logger.info("Entity ${entity.type.name}" +
+//            " ${entity.name} ${entity.customName} " +
+//            "${entity.commandTags.joinToString().asText()} to $baseColor")
         if (entity is LivingEntity && entity.hurtTime > 0) {
             return Color4b.RED
         }
+        // pokeballs probably
+        if (entity.name.convertToString().contains("layout")) return Color4b(255, 0, 255, 255)
 
         return baseColor
     }
 
     fun shouldRender(entity: Entity) : Boolean {
-        if (entity is LivingEntity && entity.shouldBeShown()) return true;
-        if (allEntities) return true;
-        return false;
+        if (entity is LivingEntity && entity.shouldBeShown()) return true
+        if (allEntities) {
+            // flags probably
+            if (entity.name.convertToString().contains("flag")) return false
+
+            return true
+        }
+        return false
     }
     fun requiresTrueSight(entity: Entity) =
         modes.activeChoice.requiresTrueSight && entity.shouldBeShown()

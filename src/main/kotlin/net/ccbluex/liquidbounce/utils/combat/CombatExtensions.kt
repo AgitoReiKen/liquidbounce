@@ -103,6 +103,9 @@ class TargetConfigurable(
     // Client friends should be also considered as target
     var friends by boolean("Friends", isVisual)
 
+    // Client friends should be also considered as target
+    var pokemons by boolean("Pokemons", false)
+
     init {
         ConfigSystem.root(this)
     }
@@ -140,21 +143,55 @@ class TargetConfigurable(
         if (!invisible && suspect.isInvisible) {
             return false
         }
-
+//        logger.info("Entity ${suspect.type.name.convertToString()} ${suspect.name.convertToString()}")
+//
+//        if (suspect is PokemonEntity)
+//        {
+//            var pokemon = suspect as PokemonEntity
+//            pokemon.canBattle(player);
+//            logger.info("Can Battle ${pokemon.getName()} - ${}")
+//        }
         // Check if enemy is a player and should be considered as a target
-        return when (suspect) {
-            is PlayerEntity -> when {
-                suspect == mc.player -> false
-                // Check if enemy is sleeping (or ignore being sleeping)
-                suspect.isSleeping && !sleeping -> false
-                else -> players
+        if (suspect is PlayerEntity)
+        {
+            if (suspect != mc.player)
+            {
+                if (suspect.isSleeping && sleeping) return true
+                if (players) return true
             }
-            is WaterCreatureEntity -> waterCreature
-            is PassiveEntity -> passive
-            is HostileEntity, is Monster -> hostile
-            is Angerable -> angerable
-            else -> false
         }
+        if (suspect is WaterCreatureEntity && waterCreature)
+        {
+             return true
+        }
+        if (suspect is PassiveEntity && passive) return true
+
+        if (suspect is HostileEntity || suspect is Monster)
+        {
+            if (hostile) return true
+        }
+
+        if (suspect is Angerable && angerable) return true
+
+        var isPokemon = (suspect.type.name.convertToString().contains("pokemon", false));
+        if (isPokemon && pokemons) return true
+
+        return false
+//        return when (suspect) {
+//            isPokemon -> pokemons
+//            is PlayerEntity -> when {
+//                suspect == mc.player -> false
+//                // Check if enemy is sleeping (or ignore being sleeping)
+//                suspect.isSleeping && !sleeping -> false
+//                else -> players
+//            }
+//            is WaterCreatureEntity -> waterCreature
+//            is PassiveEntity -> passive
+//            is HostileEntity, is Monster -> hostile
+//            is Angerable -> angerable
+//            else false
+//
+//        }
     }
 
 }

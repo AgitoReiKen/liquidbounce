@@ -28,10 +28,10 @@ plugins {
     id "org.jetbrains.dokka" version "1.9.10"
 }
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
+base {
+    version = project.mod_version
+    group = project.maven_group
+}
 configurations {
     includeDependency
     includeModDependency
@@ -88,6 +88,10 @@ dependencies {
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
     modImplementation "maven.modrinth:sodium:${project.sodium_version}"
     modCompileOnly "de.florianmichael:ViaFabricPlus:${project.viafabricplus_version}"
+
+    // Libs
+    //modImplementation files("libs/Cobblemon-fabric-1.6.1+1.21.1.jar")
+    //modImplementation fileTree(dir: "libs", include: ["*.jar"])
 
     // Minecraft Authlib
     includeDependency ("com.github.CCBlueX:mc-authlib:${project.mc_authlib_version}") {

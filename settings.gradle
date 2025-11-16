@@ -19,9 +19,6 @@
 
 pluginManagement {
     repositories {
-        flatDir {
-            dirs 'libs' // put jars here
-        }
         maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
@@ -33,5 +30,4 @@ pluginManagement {
         id 'fabric-loom' version loom_version
         id 'org.jetbrains.kotlin.jvm' version kotlin_version
     }
-
 }
