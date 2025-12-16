@@ -124,7 +124,7 @@ dependencies {
 //    includeDependency "org.graalvm.polyglot:llvm-native-community:24.0.2"
 
     // SOCKS5 Proxy Support
-    includeDependency ("io.netty:netty-handler-proxy:4.1.97.Final") {
+    includeDependency ("io.netty:netty-handler-proxy:4.2.9.Final") {
         exclude group: "io.netty", module: "netty-common"
         exclude group: "io.netty", module: "netty-buffer"
         exclude group: "io.netty", module: "netty-transport"
